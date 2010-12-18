@@ -13,7 +13,7 @@ our @EXPORT = qw(
 our @EXPORT_OK = @EXPORT;
 
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 
 sub always (&) { $_[0]->() }
@@ -98,7 +98,7 @@ You can also specify your own probability for the code to run:
 =head1 DESCRIPTION
 
 This module provides a small DSL to deal with an event's frequency,
-or likelyness of happening.
+or likelihood of happening.
 
 Potential aplications include games, pseudo-random events and anything
 that may or may not run with a given probability.
@@ -111,38 +111,38 @@ If you need to rename any of the keywords, consider using
 L<Sub::Import> to get L<Sub::Exporter>'s flexibility.
 
 
-=head2 always (&)
+=head2 always
 
 Takes a mandatory subroutine and executes it every time.
 
 
-=head2 usually (&)
+=head2 usually
 
-=head2 normally (&)
+=head2 normally
 
 Takes a mandatory subroutine and executes it with a probability of 75%.
 
 
-=head2 sometimes (&)
+=head2 sometimes
 
-=head2 maybe (&)
+=head2 maybe
 
 Takes a mandatory subroutine and executes it with a probability of 50%.
 
 
-=head2 rarely (&)
+=head2 rarely
 
-=head2 seldom (&)
+=head2 seldom
 
 Takes a mandatory subroutine and executes it with a probability of 25%.
 
 
-=head2 never (&)
+=head2 never
 
 Takes a mandatory subroutine and does nothing.    
 
 
-=head2 with_probability ($;&)
+=head2 with_probability
 
 Takes a probability and a subroutine, and executes the subroutine
 with the given probability.
@@ -172,7 +172,7 @@ And you can, of course, replace the C<< => >> with a C<,>:
 
 =head1 DIAGNOSTICS
 
-I<< "'$foo' does not look like a number or a percentage." >>
+I<< "$foo does not look like a number or a percentage." >>
 
 B<Hint:> Are you using something other than '.' as your floating point
 separator?
