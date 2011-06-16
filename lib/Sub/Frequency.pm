@@ -1,46 +1,100 @@
 package Sub::Frequency;
+
 use strict;
 use warnings;
 
-use Scalar::Util 'looks_like_number';
 use Carp 'croak';
 
 use parent 'Exporter';
+
 our @EXPORT = qw(
-        always normally usually sometimes maybe
-        rarely seldom never with_probability
+  always normally usually often sometimes maybe rarely seldom never
 );
 our @EXPORT_OK = @EXPORT;
 
+our $VERSION = '0.03';
 
-our $VERSION = '0.02';
+my %probabilities = (
+    'Sub::Frequency::Always'    => 1.00,
+    'Sub::Frequency::Normally'  => 0.75,
+    'Sub::Frequency::Sometimes' => 0.50,
+    'Sub::Frequency::Rarely'    => 0.25,
+    'Sub::Frequency::Never'     => 0.00,
+);
 
+sub always(&;@) {
+    my ( $code, @rest ) = @_;
+    my $name = 'Sub::Frequency::Always';
 
-sub always (&) { $_[0]->() }
+    if (wantarray) {
+        return ( bless( $code, $name ), @rest );
+    }
+    else {
+        _exec( $code, $name, @rest );
+    }
+}
 
+sub normally(&;@) {
+    my ( $code, @rest ) = @_;
+    my $name = 'Sub::Frequency::Normally';
 
-sub normally (&) {  with_probability( 0.75, @_ ) }
+    if (wantarray) {
+        return ( bless( $code, $name ), @rest );
+    }
+    else {
+        _exec( $code, $name, @rest );
+    }
+}
+
+sub sometimes(&;@) {
+    my ( $code, @rest ) = @_;
+    my $name = 'Sub::Frequency::Sometimes';
+
+    if (wantarray) {
+        return ( bless( $code, $name ), @rest );
+    }
+    else {
+        _exec( $code, $name, @rest );
+    }
+}
+
+sub rarely(&;@) {
+    my ( $code, @rest ) = @_;
+    my $name = 'Sub::Frequency::Rarely';
+
+    if (wantarray) {
+        return ( bless( $code, $name ), @rest );
+    }
+    else {
+        _exec( $code, $name, @rest );
+    }
+}
+
+sub never(&;@) {
+    my ( $code, @rest ) = @_;
+    my $name = 'Sub::Frequency::Never';
+
+    if (wantarray) {
+        return ( bless( $code, $name ), @rest );
+    }
+    else {
+        _exec( $code, $name, @rest );
+    }
+}
+
+*often   = \&normally;
 *usually = \&normally;
+*maybe   = \&sometimes;
+*seldom  = \&rarely;
 
+sub _exec {
+    my ( $code, $name, @rest ) = @_;
 
-sub sometimes (&) {  with_probability( 0.5, @_ ) }
-*maybe = \&sometimes;
+    $code->() and return if rand() < $probabilities{$name};
 
-
-sub rarely (&) {  with_probability( 0.25, @_ ) }
-*seldom = \&rarely;
-
-
-sub never (&)  { return }
-
-
-sub with_probability ($;&) {
-    my ($probability, $code) = @_;
-
-    $probability = _coerce($probability)
-        unless looks_like_number($probability);
-
-    $code->() if rand() <= $probability;
+    foreach $code (@rest) {
+        $code->() and return if rand() < $probabilities{ ref($code) };
+    }
 }
 
 sub _coerce {
@@ -57,6 +111,7 @@ sub _coerce {
 
 42;
 __END__
+
 =head1 NAME
 
 Sub::Frequency - Run code blocks according to a given probability
