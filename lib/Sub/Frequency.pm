@@ -3,13 +3,16 @@ package Sub::Frequency;
 use strict;
 use warnings;
 
+use Scalar::Util 'looks_like_number';
 use Carp 'croak';
 
 use parent 'Exporter';
 
 our @EXPORT = qw(
-  always normally usually often sometimes maybe rarely seldom never
+  always normally usually often sometimes maybe
+  rarely seldom never with_probability
 );
+
 our @EXPORT_OK = @EXPORT;
 
 our $VERSION = '0.03';
@@ -82,6 +85,15 @@ sub never(&;@) {
     }
 }
 
+sub with_probability ($;&) {
+    my ( $probability, $code ) = @_;
+
+    $probability = _coerce($probability)
+      unless looks_like_number($probability);
+
+    $code->() if rand() <= $probability;
+}
+
 *often   = \&normally;
 *usually = \&normally;
 *maybe   = \&sometimes;
@@ -93,7 +105,7 @@ sub _exec {
     $code->() and return if rand() < $probabilities{$name};
 
     foreach $code (@rest) {
-        $code->() and return if rand() < $probabilities{ ref($code) };
+        $code->() and last if rand() < $probabilities{ ref($code) };
     }
 }
 
@@ -148,6 +160,27 @@ You can also specify your own probability for the code to run:
     with_probability 0.42 => sub {
         ...
     };
+
+Since version 0.03 you can do a chain of probabilities:
+
+    normally {
+        # code here will run 75% of the time
+    }
+    maybe {
+        # code here will run 50% of the remaining 25% of the time,
+        # ie 12.5% of the total time
+    }
+    seldom {
+        # code here will run 25% of the remaining 12.5% of the time,
+        # ie 3.125% of the total time
+    }
+    always {
+        # code here will run on the remaining time, ie 9,375% of the time
+    };
+
+Note an absence of some semicolons compared with the previous examples.
+
+The function C<with_probability> cannot be chained yet.
 
 
 =head1 DESCRIPTION
