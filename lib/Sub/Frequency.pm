@@ -161,21 +161,26 @@ You can also specify your own probability for the code to run:
         ...
     };
 
-Since version 0.03 you can do a chain of probabilities:
+Since version 0.03 you can chain probabilities together:
 
     normally {
+
         # code here will run 75% of the time
-    }
-    maybe {
+
+    } maybe {
+
         # code here will run 50% of the remaining 25% of the time,
         # ie 12.5% of the total time
-    }
-    seldom {
+
+    } seldom {
+
         # code here will run 25% of the remaining 12.5% of the time,
         # ie 3.125% of the total time
-    }
-    always {
+
+    } always {
+
         # code here will run on the remaining time, ie 9,375% of the time
+
     };
 
 Note an absence of some semicolons compared with the previous examples.
@@ -277,9 +282,13 @@ between 0 and 1, or a percentage string (such as '15%').
 
 =head1 AUTHORS
 
-Breno G. de Oliveira, C<< <garu at cpan.org> >>
+Breno G. de Oliveira (garu), C<< <garu at cpan.org> >>
 
-Tiago Peczenyj
+Tiago Peczenyj (pac-man)
+
+=head1 CONTRIBUTORS
+
+Wesley Dal`Col (blabos) C<< <blabos at cpan.org> >>
 
 
 =head1 BUGS
