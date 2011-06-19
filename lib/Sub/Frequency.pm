@@ -213,6 +213,8 @@ Takes a mandatory subroutine and executes it every time.
 
 =head2 normally
 
+=head2 often
+
 Takes a mandatory subroutine and executes it with a probability of 75%.
 
 
