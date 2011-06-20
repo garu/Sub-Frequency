@@ -92,7 +92,7 @@ Sub::Frequency - Run code blocks according to a given probability
 
     usually {
         # code here will run 75% of the time
-        # 'normally' also works
+        # 'normally' and 'often' also work
     };
 
     sometimes {

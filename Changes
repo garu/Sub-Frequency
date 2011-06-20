@@ -1,5 +1,9 @@
 Revision history for Sub::Frequency
 
+0.04    2011-06-20
+        internal refactoring (tbr)
+        more tests
+
 0.03    2011-06-19
         Chained frequencies (blabos)
 
