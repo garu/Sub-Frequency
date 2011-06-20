@@ -25,63 +25,17 @@ my %probabilities = (
     'Sub::Frequency::Never'     => 0.00,
 );
 
-sub always(&;@) {
-    my ( $code, @rest ) = @_;
-    my $name = 'Sub::Frequency::Always';
-
-    if (wantarray) {
-        return ( bless( $code, $name ), @rest );
-    }
-    else {
-        _exec( $code, $name, @rest );
-    }
-}
-
-sub normally(&;@) {
-    my ( $code, @rest ) = @_;
-    my $name = 'Sub::Frequency::Normally';
-
-    if (wantarray) {
-        return ( bless( $code, $name ), @rest );
-    }
-    else {
-        _exec( $code, $name, @rest );
-    }
-}
-
-sub sometimes(&;@) {
-    my ( $code, @rest ) = @_;
-    my $name = 'Sub::Frequency::Sometimes';
-
-    if (wantarray) {
-        return ( bless( $code, $name ), @rest );
-    }
-    else {
-        _exec( $code, $name, @rest );
-    }
-}
-
-sub rarely(&;@) {
-    my ( $code, @rest ) = @_;
-    my $name = 'Sub::Frequency::Rarely';
-
-    if (wantarray) {
-        return ( bless( $code, $name ), @rest );
-    }
-    else {
-        _exec( $code, $name, @rest );
-    }
-}
-
-sub never(&;@) {
-    my ( $code, @rest ) = @_;
-    my $name = 'Sub::Frequency::Never';
-
-    if (wantarray) {
-        return ( bless( $code, $name ), @rest );
-    }
-    else {
-        _exec( $code, $name, @rest );
+foreach my $name (keys %probabilities) {
+    (my $subname = lc($name)) =~ s/.*:://g;
+    no strict 'refs'; 
+    *$subname = sub (&;@) { 
+         my ( $code, @rest ) = @_;
+        if (wantarray) {
+            return ( bless( $code, $name ), @rest );
+        }
+        else {
+            _exec( $code, $name, @rest );
+        }
     }
 }
 
