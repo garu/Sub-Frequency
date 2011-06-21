@@ -15,7 +15,7 @@ our @EXPORT = qw(
 
 our @EXPORT_OK = @EXPORT;
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 my %probabilities = (
     'Sub::Frequency::Always'    => 1.00,
