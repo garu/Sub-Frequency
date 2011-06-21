@@ -260,6 +260,8 @@ Tiago Peczenyj (pac-man)
 
 =head1 CONTRIBUTORS
 
+Thiago Rondon (maluco) C<< tbr at cpan.org> >>
+
 Wesley Dal`Col (blabos) C<< <blabos at cpan.org> >>
 
 
