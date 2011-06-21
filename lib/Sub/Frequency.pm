@@ -219,6 +219,22 @@ And you can, of course, replace the C<< => >> with a C<,>:
     };
 
 
+=head1 TIP: OFTEN (THIS), ELSE (THAT)
+
+Just chain your probability call with an always() call:
+
+    sometimes {
+        ...
+    } always {
+        ...
+    };
+
+In chained mode, the next function will be called when the first
+isn't (meaning "1 - p" of the times). Adding an C<always()> call
+as that next function will make the remainder part always be
+called, working like an "else" for your probability block..
+
+
 =head1 DIAGNOSTICS
 
 I<< "$foo does not look like a number or a percentage." >>
