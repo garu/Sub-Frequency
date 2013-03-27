@@ -15,7 +15,7 @@ our @EXPORT = qw(
 
 our @EXPORT_OK = @EXPORT;
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 my %probabilities = (
     'Sub::Frequency::Always'    => 1.00,
@@ -250,6 +250,32 @@ or a percentage. Like:
 
 In the code above, you should replace 'monkey' with a number
 between 0 and 1, or a percentage string (such as '15%').
+
+=head1 CAVEATS
+
+* calling C<return()> will return from the block itself, not from the
+parent C<sub>. For example, the code below will likely B<NOT> do what
+you want:
+
+  sub foo {
+    sometimes { return 1 }; # WRONG! Don't do this
+    return 2;
+  }
+
+To get the desired behavior, you can either play with modules such as
+L<Scope::Upper> or do something like this:
+
+  sub foo {
+     my $value = 2;
+     sometimes { $value = 1 };
+     return $value;
+  }
+
+=head1 SEE ALSO
+
+L<Sub::Rate>
+
+L<Sub::Retry>
 
 
 =head1 AUTHORS
